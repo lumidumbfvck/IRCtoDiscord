@@ -2,8 +2,6 @@
 
 **AdiIRC-specific** version.
 
-### What it does
-
 Your Discord presence will look roughly like:
 
 ```text
