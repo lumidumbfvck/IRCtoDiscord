@@ -26,11 +26,10 @@ It automatically updates when you:
 
 It deliberately **does not transmit WHOIS information, hostname, IP, real name, messages, user counts, or anything else**.
 
-The AdiIRC side uses its built-in scripting and socket facilities, which are documented by AdiIRC. ([AdiIRC][1])
-
+The AdiIRC side uses its built-in scripting and socket facilities, which are documented by AdiIRC. 
 ### Setup
 
-1. **Create a Discord application** in the Discord Developer Portal and copy its Application ID. Discord's documentation confirms that a Discord application is what identifies the Rich Presence activity. ([Discord][2])
+1. **Create a Discord application** in the Discord Developer Portal and copy its Application ID. Discord's documentation confirms that a Discord application is what identifies the Rich Presence activity.
 
 2. Extract the ZIP.
 
@@ -66,8 +65,7 @@ You can also use:
 /load -rs "C:\path\to\AdiIRC-Discord-RPC.mrc"
 ```
 
-AdiIRC officially supports loading remote `.mrc` scripts this way. ([wiki.adiirc.com][3])
-
+AdiIRC officially supports loading remote `.mrc` scripts this way. 
 6. Reload/reconnect AdiIRC.
 
 The bridge listens only on `127.0.0.1`, so nothing is exposed to your network.
