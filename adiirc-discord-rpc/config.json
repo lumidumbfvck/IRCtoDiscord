@@ -1,0 +1,8 @@
+{
+  "clientId": "PASTE_YOUR_DISCORD_APPLICATION_ID_HERE",
+  "listenPort": 48921,
+  "activityName": "IRC",
+  "maxStateLength": 120,
+  "maxServers": 8,
+  "maxChannelsPerServer": 8
+}
