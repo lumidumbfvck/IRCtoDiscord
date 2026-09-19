@@ -1,75 +1,87 @@
-# IRCtoDiscord
+# AdiIRC -> Discord Rich Presence
 
-**AdiIRC-specific** version.
+Minimal Rich Presence bridge for Windows + AdiIRC.
 
-Your Discord presence will look roughly like:
+It shows:
 
-```text
-IRC
-Nick
+    IRC
+    YourNick
 
-Example.Chat: #linux • #adiirc
-OFTC: #debian
-```
+    Network
+    #channel1 • #channel2
 
-It automatically updates when you:
+No WHOIS, hostmask, real name, user counts, or message contents are sent.
 
-* Join a channel
-* Part a channel
-* Get kicked
-* Change nick
-* Connect/disconnect from a network
-* Reconnect
-* Have multiple IRC networks open simultaneously
+## 1. Create a Discord application
 
-It deliberately **does not transmit WHOIS information, hostname, IP, real name, messages, user counts, or anything else**.
+Open the Discord Developer Portal and create an application. Copy its Application ID.
 
-The AdiIRC side uses its built-in scripting and socket facilities, which are documented by AdiIRC. 
-### Setup
+Put the ID into `config.json`:
 
-1. **Create a Discord application** in the Discord Developer Portal and copy its Application ID. Discord's documentation confirms that a Discord application is what identifies the Rich Presence activity.
+    {
+      "clientId": "123456789012345678"
+    }
 
-2. Extract the ZIP.
+The rest of the defaults can stay unchanged.
 
-3. Open:
+## 2. Start Discord
 
-```text
-config.json
-```
+The normal Discord desktop client must be running.
 
-and replace:
+## 3. Start the bridge
 
-```text
-PASTE_YOUR_DISCORD_APPLICATION_ID_HERE
-```
+Double-click `Start-AdiIRC-Discord-RPC.cmd`.
 
-with your application's ID.
+The window is hidden. To troubleshoot, use `Start-AdiIRC-Discord-RPC-Visible.cmd` instead.
 
-4. Start:
+## 4. Load the AdiIRC script
 
-```text
-Start-AdiIRC-Discord-RPC.cmd
-```
+In AdiIRC:
 
-5. In AdiIRC, press **Alt+R** to open the script editor and load:
+    Tools -> Edit Scripts
 
-```text
-AdiIRC-Discord-RPC.mrc
-```
+or press Alt+R.
 
-You can also use:
+Create/load a remote script containing `AdiIRC-Discord-RPC.mrc`.
 
-```text
-/load -rs "C:\path\to\AdiIRC-Discord-RPC.mrc"
-```
+You can also load it from the AdiIRC edit box with:
 
-AdiIRC officially supports loading remote `.mrc` scripts this way. 
-6. Reload/reconnect AdiIRC.
+    /load -rs "C:\path\to\AdiIRC-Discord-RPC.mrc"
 
-The bridge listens only on `127.0.0.1`, so nothing is exposed to your network.
+After loading, the script connects to the local helper.
 
+## 5. Expected presence
 
-[1]: https://dev.adiirc.com/projects/adiirc/wiki/Scripting?utm_source=chatgpt.com "Scripting - AdiIRC - AdiIRC Support/Bugs/Feature Requests"
-[2]: https://discord.com/developers/docs/social-sdk/getting_started.html?utm_source=chatgpt.com "Getting Started | Discord Social SDK"
-[3]: https://wiki.adiirc.com/projects/adiirc/wiki/Scripting_Scripts?utm_source=chatgpt.com "Scripting Scripts - AdiIRC - AdiIRC Support/Bugs/Feature Requests"
-[4]: https://discord.com/developers/docs/social-sdk/classdiscordpp_1_1Activity.html?utm_source=chatgpt.com "discordpp::Activity Class Reference | Discord Social SDK"
+For example:
+
+    IRC
+    April
+
+    Libera.Chat: #linux • #adiirc
+    OFTC: #debian
+
+The presence updates when you connect/disconnect, join/part, get kicked, change nick, or reconnect.
+
+## Troubleshooting
+
+### Nothing appears in Discord
+
+1. Make sure Discord desktop is running.
+2. Check that `clientId` is set in `config.json`.
+3. Run `Start-AdiIRC-Discord-RPC-Visible.cmd` and look for errors.
+4. Reload the AdiIRC script.
+
+### AdiIRC says the socket cannot connect
+
+Make sure the PowerShell helper is running. It listens only on `127.0.0.1:48921`.
+
+### Channels show under the wrong network
+
+The script uses AdiIRC's channel/network metadata. If a particular bouncer setup reports unusual network names, the visible name will follow whatever AdiIRC reports.
+
+## Notes
+
+- Windows PowerShell is included with Windows 10/11; no Python or .NET SDK is required.
+- The helper only listens on localhost.
+- The AdiIRC script sends only your nick and joined channel/network names.
+- Rich Presence is associated with the Discord application ID you create.
